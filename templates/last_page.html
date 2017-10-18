@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Почти на месте</title>
+</head>
+<body>
+<p>«Осталось написать одно слово и вы увидите то, что Артем хочет получить на день рождения (или не увидите)»</p>
+ <form action="/videos/" method="post">
+     {% csrf_token %}
+     Ответ:<br>
+    <input type="text" name="answer" >
+     <br>
+     <input type="submit" value="Поехали">
+ </form>
+{% if desc %}
+    <p> {{ desc }}</p>
+{% endif %}
+<img src="{% static "vitalya.png" %}">
+
+</body>
+<script>
+    url = '{{ url }}'
+    console.log(url)
+    if(url){
+        console.log('window should open')
+        window.open(url)
+    }
+</script>
+</html>
