@@ -8,12 +8,17 @@ SECOND_TRIGGER_ANSWER = 'dog'
 SECOND_TRIGGER_ANSWER_TRANSLATE1 = 'пес'
 SECOND_TRIGGER_ANSWER_TRANSLATE2 = 'собака'
 
+def get_session(request):
+    if 'stage' in request.session:
+        return request.session['stage']
+    return 0
+
 def root_view(request):
     return render(request, 'hello_view.html')
 
 
 def numbers_view(request):
-    if request.session['stage'] == 1:
+    if get_session(request) == 1:
         return redirect('/videos/')
     request.session['stage'] = 0
     args = {}
@@ -30,7 +35,7 @@ def numbers_view(request):
 def videos(request):
     args = {}
     args.update(csrf(request))
-    if not request.session['stage'] == 1:
+    if not get_session(request) == 1:
         return redirect('/numbers/')
     if request.method == 'GET':
         return render(request, 'last_page.html', args)
